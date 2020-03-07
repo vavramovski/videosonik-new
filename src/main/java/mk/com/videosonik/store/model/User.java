@@ -4,17 +4,18 @@ package mk.com.videosonik.store.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Columns;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class User {
+public class User implements Serializable {
 
     @Id
     private String username;
@@ -23,10 +24,11 @@ public class User {
 
     private String password;
 
-
-    @Column(name = "product")
+    @JoinTable(name = "wishlist",
+            joinColumns = {@JoinColumn(name = "username")},
+     inverseJoinColumns = {@JoinColumn(name = "productid")})
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<Product>wishlist;
+    private List<Product> wishlist;
 
 
 }

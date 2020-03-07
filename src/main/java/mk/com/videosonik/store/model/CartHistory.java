@@ -1,21 +1,20 @@
 package mk.com.videosonik.store.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Table(name = "cart")
-@Entity(name = "Cart")
+@Table(name = "cart_history")
+@Entity(name = "CartHistory")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @IdClass(CartCK.class)
-public class Cart {
+public class CartHistory {
 
-    //@EmbeddedId
+//    @EmbeddedId
 //    private CartCK cartCK;
 
     @Id
@@ -36,8 +35,7 @@ public class Cart {
 
     private int quantity;
 
-    static public CartHistory transformToCartHistory(Cart cart) {
-        return new CartHistory(cart.getId(), cart.getUsername(), cart.getProductid(), cart.getQuantity());
+    static public Cart transformToCart(CartHistory cart) {
+        return new Cart(cart.getId(), cart.getUsername(), cart.getProductid(), cart.getQuantity());
     }
-
 }

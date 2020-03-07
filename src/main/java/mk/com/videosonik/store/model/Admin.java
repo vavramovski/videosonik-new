@@ -5,14 +5,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
-@Table
-@Entity
-//@AllArgsConstructor
+@Table(name = "admins")
+@Entity(name = "Admin")
+@Data
+@AllArgsConstructor
 @NoArgsConstructor
-public class Admin extends User {
+public class Admin extends User implements Serializable {
 
+    public Admin(User user, Privileges privileges) {
+        super(user.getUsername(), user.getEmail(), user.getPassword(), user.getWishlist());
+        this.privileges = privileges;
+    }
+
+    @Enumerated(EnumType.STRING)
+    @JoinTable(name = "privileges")
+    private Privileges privileges;
 
 }

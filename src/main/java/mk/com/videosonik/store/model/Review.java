@@ -8,19 +8,22 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "review")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Review {
 
+    // TODO: za da postgre generira id, treba ID da e SERIAL, a tuka generationType da e identity
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @JoinColumn(name = "username")
     @ManyToOne
     private User user;
 
+    @JoinColumn(name = "productid")
     @ManyToOne
     private Product product;
 

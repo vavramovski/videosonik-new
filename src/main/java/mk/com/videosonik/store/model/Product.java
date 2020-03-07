@@ -10,14 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name = "product")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class Product {
 
     @Id
-    private String id;
+    private String productid;
 
     private int price;
 
@@ -27,6 +27,16 @@ public class Product {
 
     private String keywords;
 
-    private int countInInventory;
+    private int countininventory;
 
+    private String category;
+
+    public void setNewValues(Product newProduct) {
+        setPrice(newProduct.getPrice());
+        setImage(newProduct.getImage());
+        setDescription(newProduct.getDescription());
+        setKeywords(newProduct.getKeywords());
+        setCountininventory(newProduct.getCountininventory());
+        setCategory(newProduct.getCategory());
+    }
 }
