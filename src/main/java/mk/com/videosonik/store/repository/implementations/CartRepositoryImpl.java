@@ -5,6 +5,7 @@ import mk.com.videosonik.store.model.Cart;
 import mk.com.videosonik.store.model.Exceptions.NotFound;
 import mk.com.videosonik.store.model.Product;
 import mk.com.videosonik.store.model.User;
+import mk.com.videosonik.store.model.semi_Models.ProductQuantity;
 import mk.com.videosonik.store.repository.CartRepository;
 import mk.com.videosonik.store.repository.JPA.CartHistoryRepositoryJPA;
 import mk.com.videosonik.store.repository.JPA.CartRepositoryJPA;
@@ -25,6 +26,11 @@ public class CartRepositoryImpl implements CartRepository {
     @Override
     public List<Cart> getCartsByUserID(User user) {
         return cartRepositoryJPA.findAllByUsername(user);
+    }
+
+    @Override
+    public List<ProductQuantity> getCurrentCartsPRQuantity(User user) {
+        return cartRepositoryJPA.getAllByUsername(user);
     }
 
     @Override

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.annotation.security.DeclareRoles;
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -13,6 +14,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@DeclareRoles("ADMIN")
 public class Admin extends User implements Serializable {
 
     public Admin(User user, Privileges privileges) {

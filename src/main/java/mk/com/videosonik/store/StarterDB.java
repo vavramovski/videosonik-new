@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 import java.util.LinkedList;
 import java.util.List;
 
-@Component
+//@Component
 @AllArgsConstructor
 public class StarterDB {
 

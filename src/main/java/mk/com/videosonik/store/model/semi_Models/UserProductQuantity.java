@@ -1,4 +1,4 @@
-package mk.com.videosonik.store;
+package mk.com.videosonik.store.model.semi_Models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

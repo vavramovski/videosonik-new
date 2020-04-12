@@ -3,11 +3,14 @@ package mk.com.videosonik.store.service.Implementations;
 import lombok.AllArgsConstructor;
 import mk.com.videosonik.store.model.Cart;
 import mk.com.videosonik.store.model.CartHistory;
+import mk.com.videosonik.store.model.Exceptions.ExceededCountInInventory;
 import mk.com.videosonik.store.model.Exceptions.NotFound;
 import mk.com.videosonik.store.model.Product;
 import mk.com.videosonik.store.model.User;
+import mk.com.videosonik.store.model.semi_Models.ProductQuantity;
 import mk.com.videosonik.store.repository.CartHistoryRepository;
 import mk.com.videosonik.store.repository.CartRepository;
+import mk.com.videosonik.store.repository.ProductRepository;
 import mk.com.videosonik.store.service.CartService;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,7 @@ import java.util.List;
 public class CartServiceIMPL implements CartService {
     final CartHistoryRepository historyRepository;
     final CartRepository cartRepository;
+    final ProductRepository productRepository;
 
     @Override
     public List<CartHistory> getCartsByUserID(User user) {
@@ -47,10 +51,26 @@ public class CartServiceIMPL implements CartService {
             Integer id = historyRepository.findMaxIDbyUser(user);
             if (id != -1) {
                 for (Cart c : cartList) {
-                    historyRepository.saveCart(new CartHistory(id+1, c.getUsername(), c.getProductid(), c.getQuantity()));
+                    Product product = c.getProductid();
+                    int productsInInventory = product.getCountininventory();
+                    if (c.getQuantity() <= productsInInventory) {
+                        product.setCountininventory(productsInInventory - c.getQuantity());
+                        productRepository.editProduct(product.getProductid(), product);
+                    } else {
+                        throw new ExceededCountInInventory(productsInInventory + "");
+                    }
+                    historyRepository.saveCart(new CartHistory(id + 1, c.getUsername(), c.getProductid(), c.getQuantity()));
                 }
             } else {
                 for (Cart c : cartList) {
+                    Product product = c.getProductid();
+                    int productsInInventory = product.getCountininventory();
+                    if (c.getQuantity() <= productsInInventory) {
+                        product.setCountininventory(productsInInventory - c.getQuantity());
+                        productRepository.editProduct(product.getProductid(), product);
+                    } else {
+                        throw new ExceededCountInInventory(productsInInventory + "");
+                    }
                     historyRepository.saveCart(new CartHistory(0, c.getUsername(), c.getProductid(), c.getQuantity()));
                 }
             }
@@ -58,6 +78,15 @@ public class CartServiceIMPL implements CartService {
         } catch (Exception e) {
             throw new NotFound();
         }
+    }
 
+    @Override
+    public List<Cart> getCurrentCarts(User user) {
+        return cartRepository.getCartsByUserID(user);
+    }
+
+    @Override
+    public List<ProductQuantity> getCurrentCartsPRQuantity(User user) {
+        return cartRepository.getCurrentCartsPRQuantity(user);
     }
 }
