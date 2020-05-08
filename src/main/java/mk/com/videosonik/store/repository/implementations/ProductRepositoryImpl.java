@@ -6,6 +6,8 @@ import mk.com.videosonik.store.model.Product;
 import mk.com.videosonik.store.repository.JPA.ProductRepositoryJPA;
 import mk.com.videosonik.store.repository.ProductRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -50,7 +52,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     //TODO: getPagedProducts
     @Override
-    public Page<Product> getPagedProducts() {
-        return null;
+    public Page<Product> getPagedProducts(Pageable pageable) {
+        return productRepositoryJPA.findAll(pageable);
     }
 }

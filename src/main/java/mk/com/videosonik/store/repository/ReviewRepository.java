@@ -13,5 +13,4 @@ public interface ReviewRepository {
 
     List<Review> getReviewsByProduct(Product product);
 
-
 }

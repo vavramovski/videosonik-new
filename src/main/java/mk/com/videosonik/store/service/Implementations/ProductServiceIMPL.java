@@ -5,6 +5,7 @@ import mk.com.videosonik.store.model.Product;
 import mk.com.videosonik.store.repository.ProductRepository;
 import mk.com.videosonik.store.service.ProductService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class ProductServiceIMPL  implements ProductService {
     }
 
     @Override //TODO: parametri za page.size , page number
-    public Page<Product> getPagedProducts() {
-        return productRepository.getPagedProducts();
+    public Page<Product> getPagedProducts(Pageable pageable) {
+        return productRepository.getPagedProducts(pageable);
     }
 }

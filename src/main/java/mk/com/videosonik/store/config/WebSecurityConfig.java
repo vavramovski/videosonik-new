@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -53,19 +54,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         // We don't need CSRF for this example
         httpSecurity.cors().and();
+
         httpSecurity.csrf().disable()
                 // dont authenticate this particular request
                 .authorizeRequests().antMatchers("/authenticate").permitAll()
                 .and().authorizeRequests().antMatchers("/authenticate/**").permitAll()
                 // ContactREST
-                .and().authorizeRequests().antMatchers("/contact/send").permitAll()
+/**                .and().authorizeRequests().antMatchers("/contact/send").permitAll()**/
                 .and().authorizeRequests().antMatchers("/contact/read/**").permitAll()
                 .and().authorizeRequests().antMatchers("/contact/all").permitAll()
                 // ProductREST
-                .and().authorizeRequests().antMatchers("/products").permitAll()
-                .and().authorizeRequests().antMatchers(HttpMethod.GET, "/products/**").permitAll()
+/**                .and().authorizeRequests().antMatchers("/products").permitAll()**/
+//                .and().authorizeRequests().antMatchers(HttpMethod.GET, "/products/**").permitAll()
 //                .and().authorizeRequests().antMatchers(HttpMethod.PATCH, "/products/**").hasRole("ADMIN")
-                .and().authorizeRequests().antMatchers("/products/new").hasRole("ADMIN")
+                .and().authorizeRequests().antMatchers("/products/new").permitAll()
                 //todo: edit ova dole koa ke smenish vo productRest metodot addToCart()
                 .and().authorizeRequests().antMatchers(HttpMethod.PUT, "/products/**/**").permitAll()
                 // CartREST todo: smeni gi metodive
@@ -85,5 +87,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // Add a filter to validate the tokens with every request
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(HttpMethod.GET,"/products/**")
+                .and().ignoring().antMatchers(HttpMethod.GET,"/review")
+                .and().ignoring().antMatchers("/contact/send")
+                .and().ignoring().antMatchers("/products");
+
+
     }
 }

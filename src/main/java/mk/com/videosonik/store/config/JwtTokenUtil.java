@@ -1,9 +1,6 @@
 package mk.com.videosonik.store.config;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.var;
 import mk.com.videosonik.store.model.Admin;
 import mk.com.videosonik.store.model.User;
@@ -64,8 +61,8 @@ public class JwtTokenUtil implements Serializable {
         return claimsResolver.apply(claims);
     }
     //for retrieveing any information from token we will need the secret key
-    private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+    private Claims getAllClaimsFromToken(String token) throws ExpiredJwtException{
+            return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
     //check if the token has expired

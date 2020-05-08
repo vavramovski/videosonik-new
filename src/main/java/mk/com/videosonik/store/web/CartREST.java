@@ -24,7 +24,7 @@ public class CartREST {
     final ProductService productService;
     final JwtTokenUtil jwtTokenUtil;
 
-    @PostMapping(path = "/process")
+    @GetMapping(path = "/process")
     public void processCart(@RequestHeader(name = "Authorization") String header) {
         String token = JwtTokenUtil.getTokenFromHeader(header);
         String username = jwtTokenUtil.getUsernameFromToken(token);

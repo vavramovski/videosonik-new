@@ -26,6 +26,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public List<Review> getReviewsByProduct(Product product) {
-        return reviewRepositoryJPA.findAllByProduct(product);
+        List<Review> reviews =reviewRepositoryJPA.findAllByProduct(product);
+        return reviews;
     }
 }

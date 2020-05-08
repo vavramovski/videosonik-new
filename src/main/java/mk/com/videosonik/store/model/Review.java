@@ -9,9 +9,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "review")
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class Review {
 
     // TODO: za da postgre generira id, treba ID da e SERIAL, a tuka generationType da e identity
@@ -30,4 +30,7 @@ public class Review {
     private String comment;
 
     private Integer rate;
+
+    @Column(name="date")
+    private Long dateLong;
 }

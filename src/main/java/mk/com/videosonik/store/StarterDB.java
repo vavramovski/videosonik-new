@@ -41,7 +41,7 @@ public class StarterDB {
 
 
         cartList.add(new Cart(11, user, product, 25));
-        reviewList.add(new Review(2, user, product, "komentar", 2));
+//        reviewList.add(new Review(2, user, product, "komentar", 2, ));
 
         userList = userRepositoryJPA.findAll();
         productList= productRepositoryJPA.findAll();
